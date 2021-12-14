@@ -14,12 +14,14 @@ const { login } = require('./controllers/login');
 const { createUser } = require('./controllers/users');
 const { auth } = require('./middlewares/auth');
 const Err404 = require('./errors/Err404');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 mongoose.connect('mongodb://localhost:27017/mestodb', { useNewUrlParser: true });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(requestLogger);
 
 app.post('/signin', celebrate({
     body: Joi.object().keys({
@@ -47,6 +49,7 @@ app.use('*', (req, res, next) => {
 });
 
 // errors
+app.use(errorLogger);
 app.use(errors());
 app.use((err, req, res, next) => {
     const { statusCode = 500, message } = err;
