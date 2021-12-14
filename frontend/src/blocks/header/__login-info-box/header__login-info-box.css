@@ -1,0 +1,10 @@
+.header__login-info-box {
+    display: flex;
+    align-items: center;
+}
+
+@media all and (max-width: 380px) {
+    .header__login-info-box {
+        flex-direction: column;
+    }
+}

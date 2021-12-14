@@ -1,0 +1,21 @@
+.popup__content {
+    position: fixed;
+    width: 430px;
+    margin: auto;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    top: 50%;
+    left: 50%;
+    margin-left: -215px;
+    margin-top: -165px;
+    align-items: flex-start;
+}
+
+@media all and (max-width: 500px) {
+    .popup__content {
+        width: 282px;
+        margin-left: -141px;
+    }
+}

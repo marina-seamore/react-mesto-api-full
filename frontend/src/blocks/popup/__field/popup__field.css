@@ -1,0 +1,21 @@
+.popup__field {
+    margin: 30px auto 0;
+    padding: 0;
+    width: 358px;
+    height: 27px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.2;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+@media all and (max-width: 500px) {
+    .popup__field {
+        width: 238px;
+    }
+}
+
+.popup__field:invalid:not(:placeholder-shown) {
+    border-bottom: 1px solid #FF0000;
+  }

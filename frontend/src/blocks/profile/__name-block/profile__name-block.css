@@ -1,0 +1,6 @@
+.rofile__name-block {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin: 0 auto 0 0;
+}
