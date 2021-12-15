@@ -1,4 +1,4 @@
-export const base_url = `https://auth.nomoreparties.co`
+export const base_url = `http://api.mesto.dom.nomoredomains.rocks/`
 
 function _returnResultStatus(res) {
     if (res.ok) {
