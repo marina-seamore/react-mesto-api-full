@@ -1,12 +1,15 @@
 // app
 const express = require('express');
+require('dotenv').config();
 
-const port = 3000;
+console.log(process.env.NODE_ENV);
+const { port = 3000 } = process.env;
 const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const { celebrate, Joi, errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const userRoute = require('./routes/users');
 const cardRoute = require('./routes/cards');
@@ -18,9 +21,20 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 mongoose.connect('mongodb://localhost:27017/mestodb', { useNewUrlParser: true });
 
+app.use(cors({
+    origin: [
+        'http://mesto.dom.nomoredomains.rocks',
+        'https://mesto.dom.nomoredomains.rocks',
+        'http://api.mesto.dom.nomoredomains.rocks',
+        'https://mesto.dom.nomoredomains.rocks',
+        'http://localhost:3000',
+    ],
+    credentials: true,
+    methods: 'GET, PUT, PATCH, POST, DELETE',
+}));
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
 app.use(requestLogger);
 
 app.post('/signin', celebrate({
@@ -33,7 +47,7 @@ app.post('/signup', celebrate({
     body: Joi.object().keys({
         name: Joi.string().min(2).max(30),
         about: Joi.string().min(2).max(30),
-        avatar: Joi.string().required().regex(/https?:\/\/(w{3}.)?[\w-]+\.\S+[^><]/),
+        avatar: Joi.string().regex(/https?:\/\/(w{3}.)?[\w-]+\.\S+[^><]/),
         email: Joi.string().required().email(),
         password: Joi.string().required(),
     }),
