@@ -1,9 +1,9 @@
-export const base_url = `http://api.mesto.dom.nomoredomains.rocks/`
+export const base_url = `https://api.mesto.dom.nomoredomains.rocks`
 
 function _returnResultStatus(res) {
     if (res.ok) {
         return res.json();
-    } return Promise.reject(`Не получилось: ${res.status}${res.statusText}`);
+    } return Promise.reject(`Не получилось: ${res.status}${res.statusText} type:${res.type} and ${res.headers}`);
 }
 
 export const register = (email, password) => {
@@ -19,8 +19,10 @@ export const register = (email, password) => {
 
 export const login = (email, password) => {
     return fetch(`${base_url}/signin`, {
+        credentials: 'include',
         method: 'POST',
         headers: {
+            'Accept': 'application/json',
             "Content-Type": "application/json"
         },
         body: JSON.stringify({ email, password })
@@ -28,7 +30,7 @@ export const login = (email, password) => {
         .then((res) => _returnResultStatus(res))
         .then((data) => {
             console.log(`Token on login: ${data.token}`)
-            localStorage.setItem('jwt', data.token)
+            // localStorage.setItem('jwt', data.token)
             return data
         })
 }
@@ -36,9 +38,10 @@ export const login = (email, password) => {
 export const userCheck = (token) => {
     return fetch(`${base_url}/users/me`, {
         method: 'GET',
+        credentials: 'include',
         headers: {
             "Content-Type": "application/json",
-            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json'
         }
     })
         .then((res) => _returnResultStatus(res))

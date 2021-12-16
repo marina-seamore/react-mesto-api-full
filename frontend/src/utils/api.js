@@ -1,8 +1,7 @@
 
 class Api {
-    constructor({ address, cohortId, headers }) {
+    constructor({ address, headers }) {
         this._address = address;
-        this._cohortId = cohortId;
         this._headers = headers;
     }
 
@@ -10,26 +9,29 @@ class Api {
     _returnResultStatus(res) {
         if (res.ok) {
             return res.json();
-        } return Promise.reject(`Не получилось: ${res.status}${res.statusText}`);
+        } return Promise.reject(`Не получилось: ${res.status}${res.statusText}${res.type} and ${res.headers}`);
     }
 
     getInitialCards() {
-        return fetch(`${this._address}/${this._cohortId}/cards`, {
-            headers: this._headers
+        return fetch(`${this._address}/cards`, {
+            headers: this._headers,
+            credentials: 'include'
         })
             .then(this._returnResultStatus)
     }
 
     getUserInfo() {
-        return fetch(`${this._address}/${this._cohortId}/users/me`, {
-            headers: this._headers
+        return fetch(`${this._address}/users/me`, {
+            credentials: 'include',
+            headers: this._headers,
         })
             .then(this._returnResultStatus)
     }
 
     setUserInfo({ name, about }) {
-        return fetch(`${this._address}/${this._cohortId}/users/me`, {
+        return fetch(`${this._address}/users/me`, {
             method: 'PATCH',
+            credentials: 'include',
             headers: this._headers,
             body: JSON.stringify({
                 name: name,
@@ -39,9 +41,10 @@ class Api {
             .then(this._returnResultStatus)
     }
 
-    setUserAvatar( avatar ) {
-        return fetch(`${this._address}/${this._cohortId}/users/me/avatar`, {
+    setUserAvatar(avatar) {
+        return fetch(`${this._address}/users/me/avatar`, {
             method: 'PATCH',
+            credentials: 'include',
             headers: this._headers,
             body: JSON.stringify({
                 avatar: avatar
@@ -52,8 +55,9 @@ class Api {
 
 
     addCard({ name, link }) {
-        return fetch(`${this._address}/${this._cohortId}/cards`, {
+        return fetch(`${this._address}/cards`, {
             method: 'POST',
+            credentials: 'include',
             headers: this._headers,
             body: JSON.stringify({
                 name,
@@ -64,24 +68,27 @@ class Api {
     }
 
     deleteCard(cardId) {
-        return fetch(`${this._address}/${this._cohortId}/cards/${cardId}`, {
+        return fetch(`${this._address}/cards/${cardId}`, {
             method: 'DELETE',
+            credentials: 'include',
             headers: this._headers
         })
             .then(this._returnResultStatus)
     }
 
     addLike(cardId) {
-        return fetch(`${this._address}/${this._cohortId}/cards/likes/${cardId}`, {
+        return fetch(`${this._address}/cards/${cardId}/likes`, {
             method: 'PUT',
+            credentials: 'include',
             headers: this._headers
         })
             .then(this._returnResultStatus)
     }
 
     removeLike(cardId) {
-        return fetch(`${this._address}/${this._cohortId}/cards/likes/${cardId}`, {
+        return fetch(`${this._address}/cards/${cardId}/likes`, {
             method: 'DELETE',
+            credentials: 'include',
             headers: this._headers
         })
             .then(this._returnResultStatus)
@@ -89,11 +96,10 @@ class Api {
 }
 
 const apiMesto = new Api({
-    address: `https://mesto.nomoreparties.co/v1`,
-    cohortId: `cohort-23`,
+    address: `https://api.mesto.dom.nomoredomains.rocks`,
     headers: {
-    authorization: `2f40adb1-d905-40eb-b5eb-fef99da08bb6`,
-    'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
     }
 })
 
