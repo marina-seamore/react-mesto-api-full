@@ -28,11 +28,6 @@ export const login = (email, password) => {
         body: JSON.stringify({ email, password })
     })
         .then((res) => _returnResultStatus(res))
-        .then((data) => {
-            console.log(`Token on login: ${data.token}`)
-            // localStorage.setItem('jwt', data.token)
-            return data
-        })
 }
 
 export const userCheck = (token) => {
