@@ -8,12 +8,11 @@ function Card({ onCardClick, card, onCardLike, onCardDelete }) {
 
     const elementDeleteButtonClassName = (`button ${isOwn ? 'element__delete-button_visible' : 'element__delete-button_hidden'}`)
 
-    const isLiked = card.likes.some(i => i._id === currentUser._id)
+    const isLiked = card.likes.some(i => i === currentUser._id)
     const elementLikeButtonClassName = (`button element__likes_button ${isLiked ? 'element__likes_button_active' : ''}`)
 
     const handleCardLike =() => {
         onCardLike(card)
-        console.log(`current us id:${currentUser._id}`)
     }
 
     const handleCardClick = () => {
