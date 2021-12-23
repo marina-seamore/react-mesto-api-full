@@ -16,7 +16,7 @@ module.exports.login = (req, res, next) => {
                 httpOnly: true,
                 sameSite: 'none',
                 secure: true,
-            }).send({ user });
+            }).send({ message: 'user is logged in' });
         })
         .catch((err) => {
             if (err.message.includes('password')) {
