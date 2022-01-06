@@ -132,30 +132,9 @@ function App() {
     // Logout
 
     function logout() {
-        localStorage.removeItem('jwt');
         setIsLoggedIn(false);
         history.push('/sign-in')
     }
-
-    // Authorisation check
-
-    React.useEffect(() => {
-        const token = localStorage.getItem('jwt');
-        if (token) {
-            auth.userCheck(token)
-                .then((res) => {
-                    setIsLoggedIn(true)
-                    setEmail(res.data.email);
-                    history.push('/')
-                })
-                .catch(() => {
-                    localStorage.removeItem('jwt');
-                    setIsLoggedIn(false)
-                })
-        } else {
-            setIsLoggedIn(false)
-        }
-    }, [history])
 
     //cards functions
 
